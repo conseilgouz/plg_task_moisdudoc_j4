@@ -7,7 +7,7 @@
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>pascal.leconte@conseilgouz.com</authorEmail>
 	<authorUrl>www.conseilgouz.com</authorUrl>
-	<version>1.0.1</version>
+	<version>1.0.2</version>
 	<description>PLG_TASK_MOISDUDOC_DESC</description>
 	<scriptfile>script.php</scriptfile>	
 	<files>
@@ -18,8 +18,8 @@
 		<language tag="fr-FR">language/fr-FR/plg_task_moisdudoc.ini</language>
 		<language tag="fr-FR">language/fr-FR/plg_task_moisdudoc.sys.ini</language>
 	</languages>
-	<changelogurl>https://github.com/conseilgouz/plg_task_moisdudoc/plg_task_moisdudoc_changelogl</changelogurl>
+	<changelogurl>https://github.com/conseilgouz/plg_task_moisdudoc_j4/blob/main/plg_task_moisdudoc_changelog.xml</changelogurl>
 	<updateservers>
-	<server type="extension" name="task moisdudoc" priority="1">https://github.com/conseilgouz/plg_task_moisdudoc/plg_task_moisdudoc_update.xml</server>
+	<server type="extension" name="task moisdudoc" priority="1">https://github.com/conseilgouz/plg_task_moisdudoc_j4/blob/main/plg_task_moisdudoc_update.xml</server>
 	</updateservers>
 </extension>
