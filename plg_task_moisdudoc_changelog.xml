@@ -3,6 +3,18 @@
 		<element>moisdudoc</element>
 		<type>plugin</type>
 		<group>task</group>
+		<version>1.0.1</version>
+        <note>
+            <item>30/09/2022</item>
+        </note>
+         <remove>
+            <item>Remove SHA256</item>
+        </remove>
+	</changelog>
+	<changelog>
+		<element>moisdudoc</element>
+		<type>plugin</type>
+		<group>task</group>
 		<version>1.0.0</version>
         <note>
             <item>29/09/2022</item>
