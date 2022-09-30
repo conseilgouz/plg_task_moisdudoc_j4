@@ -3,12 +3,24 @@
 		<element>moisdudoc</element>
 		<type>plugin</type>
 		<group>task</group>
+		<version>1.0.4</version>
+        <note>
+            <item>30/09/2022</item>
+        </note>
+         <fix>
+            <item>update.xml directory</item>
+        </fix>
+	</changelog>
+	<changelog>
+		<element>moisdudoc</element>
+		<type>plugin</type>
+		<group>task</group>
 		<version>1.0.3</version>
         <note>
             <item>30/09/2022</item>
         </note>
          <fix>
-            <item>update.xml, changelog.xml addresses</item>
+            <item>update.xml, changelog.xml directories</item>
         </fix>
 	</changelog>
 	<changelog>
@@ -20,7 +32,7 @@
             <item>30/09/2022</item>
         </note>
          <fix>
-            <item>update.xml, changelog.xml addresses</item>
+            <item>update.xml, changelog.xml directories</item>
         </fix>
 	</changelog>
 	<changelog>
