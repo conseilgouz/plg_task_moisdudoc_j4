@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<form>
+	<fields name="params">
+		<fieldset name="task_params">
+			<field showon="iso_entree:articles"
+			name="categories" type="category"	multiple="true"	extension="com_content" 
+			label="PLG_TASK_MOISDUDOC_CATEGORIES" description="PLG_TASK_MOISDUDOC_CATEGORIES_DESC" 
+			layout="joomla.form.field.list-fancy-select"
+			/>
+		</fieldset>
+	</fields>
+</form>

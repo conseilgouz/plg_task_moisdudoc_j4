@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<updates>
+	<update>
+		<name>Plugin PageBreak Isotope</name>
+		<description/>
+		<element>plg_task_moisdudoc</element>
+		<type>plugin</type>
+		<folder>task</folder>		
+		<version>1.0.0</version>
+		<client>site</client>
+		<downloads>
+			<downloadurl type="full" format="zip">https://github.com/conseilgouz/plg_task_moisdudoc/archive/refs/tags/1.0.0.zip</downloadurl>
+		</downloads>
+		<targetplatform name="joomla" version="4.[12]"/>
+		<changelogurl>https://github.com/conseilgouz/plg_task_moisdudoc/plg_task_moisdudoc_changelogl</changelogurl>
+		<sha256>696c563ca0df0d90aafc46761819b9827a9e32856348ca1fe31c9a1c5f06ec48</sha256>
+	</update>
+</updates>
