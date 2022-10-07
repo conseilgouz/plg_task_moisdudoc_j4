@@ -1,6 +1,6 @@
 <?php
 /** Task MoisDuDoc
-* Version			: 1.0.0
+* Version			: 1.0.5
 * Package			: Joomla 4.1
 * copyright 		: Copyright (C) 2022 ConseilGouz. All rights reserved.
 * license    		: http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 use Joomla\Registry\Registry;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Date\Date;
+use Joomla\CMS\Factory;
 use Joomla\Component\Scheduler\Administrator\Event\ExecuteTaskEvent;
 use Joomla\Component\Scheduler\Administrator\Task\Status as TaskStatus;
 use Joomla\Component\Scheduler\Administrator\Traits\TaskPluginTrait;
@@ -67,7 +68,8 @@ class PlgTaskMoisdudoc extends CMSPlugin implements SubscriberInterface
 		$params->orderby_sec = 'front'; // necessaire pour articles model
 		$articles     = new ArticlesModel(array('ignore_request' => true));
 		$articles->setState('params', $params);
-		$articles->setState('filter.category_id', $this->myparams->categories);		
+		$categories = $this->myparams->categories;
+		$articles->setState('filter.category_id', $categories);		
 		$items = $articles->getItems();
 		foreach ($items as &$item){
 			$fields = FieldsHelper::getFields('com_content.article',$item);
@@ -91,14 +93,17 @@ class PlgTaskMoisdudoc extends CMSPlugin implements SubscriberInterface
 		            $diff = date_diff($dateJour,$dateSeance);
 		            if ($diff->format("%R") == '-') {
                         $value = "passé";
+						$catid = 11;
 		            } else {
 		               $value = 'à venir';
+					   $catid = 12;
 		            }
-		            if ($value != $field->value) { // need update
+		            if (($value != $field->value) || ($catid != $item->catid) ){ // need update
 		              $this->update_onefield($item->id, $field, $value);
+					  $this->update_Category_Article($item, $catid);
 		            }
 		        }
-		        if (($field->id == 28) && ($field->value == "")) {// realisation pas encore renseigné 
+		        if ($field->id == 28) {// realisation  
 		           if ($film_id) { // film_id  doit être renseigné
 		               $realisateur = $this->getOneField($film_id,4); 
 		               $this->update_onefield($item->id, $field, $realisateur);
@@ -131,5 +136,22 @@ class PlgTaskMoisdudoc extends CMSPlugin implements SubscriberInterface
 	function update_onefield($article_id, $field,$value) {
 	    $model = BaseDatabaseModel::getInstance('Field', 'FieldsModel', array('ignore_request' => true));
 	    $model->setFieldValue($field->id, $article_id, $value);	
+	}
+	// update Article's category 
+	function update_Category_Article($article,$value) {
+	    $article->catid = 12;
+	    // $model     = new ArticleModel(array('ignore_request' => true));
+	    // $model->save($article);	
+	    $db = Factory::getDbo();
+	    try {
+	        $query = $db->getQuery(true);
+	        $query->update("#__content")
+	        ->set('catid ='.$value)
+	        ->where('id = '.$article->id);
+	        $db->setQuery($query);
+	        $db->execute();
+	    }	catch ( Exception $e ) {
+	    }
+	    
 	}
 }
