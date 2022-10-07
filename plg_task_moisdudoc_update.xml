@@ -9,7 +9,7 @@
 		<version>1.0.5</version>
 		<client>site</client>
 		<downloads>
-			<downloadurl type="full" format="zip">https://github.com/conseilgouz/plg_task_moisdudoc/archive/refs/tags/1.0.5.zip</downloadurl>
+			<downloadurl type="full" format="zip">https://github.com/conseilgouz/plg_task_moisdudoc_4j/archive/refs/tags/1.0.5.zip</downloadurl>
 		</downloads>
 		<targetplatform name="joomla" version="4.[12]"/>
 		<changelogurl>https://raw.githubusercontent.com/conseilgouz/plg_task_moisdudoc_j4/master/plg_task_moisdudoc_changelog.xml</changelogurl>
