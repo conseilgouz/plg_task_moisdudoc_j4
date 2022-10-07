@@ -3,7 +3,7 @@
 	<update>
 		<name>Plugin moisdudoc</name>
 		<description/>
-		<element>plg_task_moisdudoc</element>
+		<element>moisdudoc</element>
 		<type>plugin</type>
 		<folder>task</folder>		
 		<version>1.0.5</version>
