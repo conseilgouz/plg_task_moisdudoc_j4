@@ -1,6 +1,6 @@
 <?php
 /** Task MoisDuDoc
-* Version			: 1.0.5
+* Version			: 1.0.6
 * Package			: Joomla 4.1
 * copyright 		: Copyright (C) 2022 ConseilGouz. All rights reserved.
 * license    		: http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
@@ -71,58 +71,60 @@ class PlgTaskMoisdudoc extends CMSPlugin implements SubscriberInterface
 		$categories = $this->myparams->categories;
 		$articles->setState('filter.category_id', $categories);		
 		$items = $articles->getItems();
-		foreach ($items as &$item){
+		foreach ($items as $item){
 			$fields = FieldsHelper::getFields('com_content.article',$item);
 			$film_id = null;
 			// attention l'odre des champs est important car besoin film id pour realisateur
-		    foreach ($fields as $field) {
-		        if ($field->id == 13) { // id de l'article du film de la seance
-		          $film_id = $field->value; // utile pour retrouver le realisateur
-		        }
-		        if ($field->id == 12) {// date/heure
-		            $date_heure = $field->value;
-		        }
-		        if ($field->id == 29) {// date field : field 29
-		            $date =new Date($date_heure);
-		            $date= $date->format('d').' '.$full[(int)$date->format('m') - 1].' '.$date->format('Y');
-		            $this->update_onefield($item->id, $field, $date);
-		        }
-		        if ($field->id == 27) {// quand : field 27
-		            $dateJour = date_create(date("Y-m-d"));
-		            $dateSeance = date_create($date_heure);
-		            $diff = date_diff($dateJour,$dateSeance);
-		            if ($diff->format("%R") == '-') {
-                        $value = "passé";
-						$catid = 11;
-		            } else {
-		               $value = 'à venir';
-					   $catid = 12;
-		            }
-		            if (($value != $field->value) || ($catid != $item->catid) ){ // need update
-		              $this->update_onefield($item->id, $field, $value);
-					  $this->update_Category_Article($item, $catid);
-		            }
-		        }
-		        if ($field->id == 28) {// realisation  
-		           if ($film_id) { // film_id  doit être renseigné
-		               $realisateur = $this->getOneField($film_id,4); 
-		               $this->update_onefield($item->id, $field, $realisateur);
-		           }
-		        }
-			}				
+			$fields_sort = [];
+			foreach ($fields as $field) {
+			    $fields_sort[$field->id] = $field;
+			}
+			ksort($fields_sort);
+		    $film_id = $fields_sort[13]->value; // utile pour retrouver le realisateur
+		    $lieu_id = $fields_sort[14]->value; // utile pour retrouver le lieu
+		    $date_heure =  $fields_sort[12]->value; // date/heure de la seance
+	        // date field : field 29
+            $date =new Date($date_heure);
+            $date= $date->format('d').' '.$full[(int)$date->format('m') - 1].' '.$date->format('Y');
+            $this->update_onefield($item->id,  $fields_sort[29], $date);
+            $dateJour = date_create(date("Y-m-d"));
+            $dateSeance = date_create($date_heure);
+            $diff = date_diff($dateJour,$dateSeance);
+            if ($diff->format("%R") == '-') {
+				$catid = 11;
+            } else {
+			   $catid = 12;
+            }
+		    if ($catid != $item->catid){ // need update
+			  $this->update_Category_Article($item, $catid);
+            }
+            if ($film_id) { // film_id  doit être renseigné
+               $an_article = $this->getOneArticle($film_id);
+		       $realisateur = $this->getOneField($an_article,4); 
+		       $this->update_onefield($item->id,  $fields_sort[28], $realisateur);
+		       $this->update_onefield($item->id,  $fields_sort[37], $an_article->title);
+			}	
+			if ($lieu_id) { // lieu de la seance
+			    $an_article = $this->getOneArticle($lieu_id);
+			    $this->update_onefield($item->id,  $fields_sort[38], $an_article->title);
+			}
 		}
 		return TaskStatus::OK;		
 	}	
-	// recuperation d'un custom field dans un article
-	protected function getOneField($article_id,$field_id) {
+	// get one article
+	protected function getOneArticle($article_id) {
 	    $value = "inconnu";
 	    $article   = new ArticleModel(array('ignore_request' => true));
-        if (!$article) { // model error : exit
-	        return $value;    
-    	}
-    	$params = new Registry();
-    	$article->setState('params', $params);
-    	$item = $article->getItem($article_id);
+	    if (!$article) { // model error : exit
+	        return $value;
+	    }
+	    $params = new Registry();
+	    $article->setState('params', $params);
+	    $item = $article->getItem($article_id);
+	    return $item;
+	}
+	// recuperation d'un custom field dans un article
+	protected function getOneField($item,$field_id) {
     	$fields = FieldsHelper::getFields('com_content.article',$item);
     	foreach ($fields as $field) {
     	    if ($field->id == $field_id) { // id de l'aticle du film de la seance
@@ -139,9 +141,6 @@ class PlgTaskMoisdudoc extends CMSPlugin implements SubscriberInterface
 	}
 	// update Article's category 
 	function update_Category_Article($article,$value) {
-	    $article->catid = 12;
-	    // $model     = new ArticleModel(array('ignore_request' => true));
-	    // $model->save($article);	
 	    $db = Factory::getDbo();
 	    try {
 	        $query = $db->getQuery(true);
