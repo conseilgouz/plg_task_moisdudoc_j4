@@ -1,6 +1,6 @@
 <?php
 /** Task MoisDuDoc
-* Version			: 1.0.6
+* Version			: 1.0.7
 * Package			: Joomla 4.1
 * copyright 		: Copyright (C) 2022 ConseilGouz. All rights reserved.
 * license    		: http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
@@ -62,7 +62,7 @@ class PlgTaskMoisdudoc extends CMSPlugin implements SubscriberInterface
 	}
 
 	protected function moisdudoc(ExecuteTaskEvent $event): int {
-	    $full = array("janvier","f&eacute;vrier.","mars","avril","mai","juin","juillet","ao&ucirc;t","septembre","octobre","novembre","d&eacute;cembre");
+	    $full = array("jan","f&eacute;v","mars","avr","mai","juin","juil","ao&ucirc;t","sept","oct","nov","d&eacute;c");
 		$this->myparams = $event->getArgument('params');
 		$params = new Registry();
 		$params->orderby_sec = 'front'; // necessaire pour articles model

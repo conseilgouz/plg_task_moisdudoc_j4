@@ -3,6 +3,18 @@
 		<element>moisdudoc</element>
 		<type>plugin</type>
 		<group>task</group>
+		<version>1.0.7</version>
+        <note>
+            <item>14/10/2022</item>
+        </note>
+		<fix>
+            <item>mois sur 3/4 car</item>
+		</fix>
+	</changelog>
+	<changelog>
+		<element>moisdudoc</element>
+		<type>plugin</type>
+		<group>task</group>
 		<version>1.0.6</version>
         <note>
             <item>14/10/2022</item>
