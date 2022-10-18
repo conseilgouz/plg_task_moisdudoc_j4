@@ -1,6 +1,6 @@
 <?php
 /** Task MoisDuDoc
-* Version			: 1.0.7
+* Version			: 1.0.8
 * Package			: Joomla 4.1
 * copyright 		: Copyright (C) 2022 ConseilGouz. All rights reserved.
 * license    		: http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
@@ -20,6 +20,7 @@ use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
 use Joomla\Component\Content\Site\Model\ArticlesModel;
 use Joomla\Component\Content\Site\Model\ArticleModel;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
+use Joomla\Component\Fields\Administrator\Model\FieldModel;
 
 class PlgTaskMoisdudoc extends CMSPlugin implements SubscriberInterface
 {
@@ -62,7 +63,8 @@ class PlgTaskMoisdudoc extends CMSPlugin implements SubscriberInterface
 	}
 
 	protected function moisdudoc(ExecuteTaskEvent $event): int {
-	    $full = array("jan","f&eacute;v","mars","avr","mai","juin","juil","ao&ucirc;t","sept","oct","nov","d&eacute;c");
+	    $months = array("jan", "f&eacute;v", "mars", "avr", "mai", "juin", "juil", "ao&ucirc;t", "sept", "oct", "nov", "d&eacute;c");
+		$days = array("lun", "mar", "mer", "jeu", "ven", "sam", "dim");
 		$this->myparams = $event->getArgument('params');
 		$params = new Registry();
 		$params->orderby_sec = 'front'; // necessaire pour articles model
@@ -85,7 +87,7 @@ class PlgTaskMoisdudoc extends CMSPlugin implements SubscriberInterface
 		    $date_heure =  $fields_sort[12]->value; // date/heure de la seance
 	        // date field : field 29
             $date =new Date($date_heure);
-            $date= $date->format('d').' '.$full[(int)$date->format('m') - 1].' '.$date->format('Y');
+            $date = $date->format('d') . ' ' . $months[(int)$date->format('m') - 1] . ' ' . $date->format('Y') . ' - ' . $days[(int)$date->format('w')];
             $this->update_onefield($item->id,  $fields_sort[29], $date);
             $dateJour = date_create(date("Y-m-d"));
             $dateSeance = date_create($date_heure);
@@ -136,7 +138,7 @@ class PlgTaskMoisdudoc extends CMSPlugin implements SubscriberInterface
 	// update one custom field value
 	// note : if it does not exist, custom field is created
 	function update_onefield($article_id, $field,$value) {
-	    $model = BaseDatabaseModel::getInstance('Field', 'FieldsModel', array('ignore_request' => true));
+	    $model = new FieldModel(array('ignore_request' => true));
 	    $model->setFieldValue($field->id, $article_id, $value);	
 	}
 	// update Article's category 
