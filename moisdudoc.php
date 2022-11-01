@@ -67,7 +67,7 @@ class PlgTaskMoisdudoc extends CMSPlugin implements SubscriberInterface
 	protected function moisdudoc(ExecuteTaskEvent $event): int
 	{
 		$months = array("jan", "f&eacute;v", "mars", "avr", "mai", "juin", "juil", "ao&ucirc;t", "sept", "oct", "nov", "d&eacute;c");
-		$days = array("lun", "mar", "mer", "jeu", "ven", "sam", "dim");
+		$days = array("dim", "lun", "mar", "mer", "jeu", "ven", "sam");
 		$this->myparams = $event->getArgument('params');
 		$params = new Registry();
 		$params->orderby_sec = 'front'; // nécessaire pour Articles Model
